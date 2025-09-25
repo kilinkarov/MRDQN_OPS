@@ -1,0 +1,33 @@
+# Logs and temporary files
+logs/
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Model checkpoints (keep in repo for now)
+# models/
+
+# Data files (keep in repo for now)
+# *.pkl
+# *.csv
