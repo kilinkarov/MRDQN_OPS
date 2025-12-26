@@ -8,7 +8,10 @@ import dvc.api
 
 
 def download_data(data_dir: Path = Path("data")):
-    """Download data from DVC remote storage or public sources.
+    """Download cryptocurrency data from open sources.
+
+    For local DVC storage, this function provides instructions
+    for obtaining data from public sources like CoinGecko or Binance API.
 
     Args:
         data_dir: Directory to store data
@@ -17,16 +20,42 @@ def download_data(data_dir: Path = Path("data")):
     data_dir.mkdir(parents=True, exist_ok=True)
     output_path = data_dir / "crypto_data.pkl"
 
+    if output_path.exists():
+        print(f"Data already exists: {output_path}")
+        return
+
     try:
+        print("Trying DVC remote...")
         with dvc.api.open("data/crypto_data.pkl", mode="rb") as f:
             content = pickle.load(f)
-            output_path = data_dir / "crypto_data.pkl"
             with open(output_path, "wb") as out_f:
                 pickle.dump(content, out_f)
-        print(f"Data downloaded successfully to {output_path}")
-    except Exception as e:
-        print(f"Error downloading data from DVC: {e}")
-        print("Attempting to use local data if available...")
+        print(f"Downloaded from DVC: {output_path}")
+        return
+    except Exception:
+        pass
+
+    print("\n" + "=" * 70)
+    print("DATA NOT FOUND - Please obtain from public sources:")
+    print("=" * 70)
+    print("\nOption 1: CoinGecko API (Free)")
+    print("  https://www.coingecko.com/en/api/documentation")
+    print("  Example: BTC/ETH historical prices")
+    print("\nOption 2: Binance API (Free)")
+    print("  https://api.binance.com/api/v3/klines")
+    print("\nOption 3: Download from Kaggle")
+    print("  Search: 'cryptocurrency historical data'")
+    print("\nOption 4: Use existing data")
+    print("  If you have crypto_data.pkl, place it in: data/")
+    print("\nAfter obtaining data:")
+    print("  1. Place file: data/crypto_data.pkl")
+    print("  2. Add to DVC: dvc add data/crypto_data.pkl")
+    print("  3. Commit: git add data/crypto_data.pkl.dvc")
+    print("=" * 70)
+
+    raise FileNotFoundError(
+        "Data not found. Please follow instructions above to obtain crypto data."
+    )
 
 
 def get_price_list(content: dict, name_num: int = 0) -> Tuple[List[float], str]:
