@@ -35,26 +35,45 @@ def download_data(data_dir: Path = Path("data")):
     except Exception:
         pass
 
-    print("\n" + "=" * 70)
-    print("DATA NOT FOUND - Please obtain from public sources:")
-    print("=" * 70)
-    print("\nOption 1: CoinGecko API (Free)")
-    print("  https://www.coingecko.com/en/api/documentation")
-    print("  Example: BTC/ETH historical prices")
-    print("\nOption 2: Binance API (Free)")
-    print("  https://api.binance.com/api/v3/klines")
-    print("\nOption 3: Download from Kaggle")
-    print("  Search: 'cryptocurrency historical data'")
-    print("\nOption 4: Use existing data")
-    print("  If you have crypto_data.pkl, place it in: data/")
-    print("\nAfter obtaining data:")
-    print("  1. Place file: data/crypto_data.pkl")
-    print("  2. Add to DVC: dvc add data/crypto_data.pkl")
-    print("  3. Commit: git add data/crypto_data.pkl.dvc")
-    print("=" * 70)
+    print("Downloading from CoinGecko API...")
+    try:
+        import time
+
+        import requests
+
+        data_dict = {}
+
+        for crypto_id, prefix in [("bitcoin", "BTC"), ("ethereum", "ETH")]:
+            print(f"Fetching {prefix} data...")
+            url = f"https://api.coingecko.com/api/v3/coins/{crypto_id}/market_chart"
+            params = {"vs_currency": "usd", "days": "max", "interval": "daily"}
+
+            response = requests.get(url, params=params, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+
+            prices = data.get("prices", [])
+            for timestamp, price in prices:
+                date_str = time.strftime("%Y%m%d", time.gmtime(timestamp / 1000))
+                key = f"{date_str}{prefix}{crypto_id.capitalize()}_price"
+                data_dict[key] = price
+
+            time.sleep(1)
+
+        with open(output_path, "wb") as f:
+            pickle.dump(data_dict, f)
+
+        print(f"Data downloaded from CoinGecko API: {output_path}")
+        print(f"Total data points: {len(data_dict)}")
+        return
+
+    except ImportError:
+        print("ERROR: requests library not installed. Install: uv add requests")
+    except Exception as e:
+        print(f"ERROR downloading from API: {e}")
 
     raise FileNotFoundError(
-        "Data not found. Please follow instructions above to obtain crypto data."
+        "Failed to download data. Please place crypto_data.pkl in data/ manually."
     )
 
 
