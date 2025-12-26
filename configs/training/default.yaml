@@ -1,0 +1,30 @@
+num_frames: 300000
+batch_size: 128
+learning_rate: 6.25e-5
+gamma: 0.95
+
+memory_size: 10000
+n_step: 3
+
+per_alpha: 0.2
+per_beta: 0.6
+per_beta_increment: 0.0
+prior_eps: 1.0e-6
+
+target_update: 100
+
+optimizer: adam
+adam_eps: 1.5e-4
+
+max_episodes: null
+episode_log_interval: 10
+checkpoint_interval: 5000
+
+use_lightning: false
+max_epochs: 1000
+accelerator: cpu
+devices: 1
+precision: 32
+
+log_interval: 50
+plot_interval: 2000

@@ -1,0 +1,9 @@
+hidden_size: 512
+
+v_min: 0.0
+v_max: 20.0
+atom_size: 51
+
+noisy_std: 0.5
+
+save_interval: 5000

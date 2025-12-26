@@ -1,0 +1,10 @@
+name: BTC
+crypto_index: 0
+data_path: data/crypto_data.pkl
+
+window_size: 30
+cycle_length: 9
+train_split: 0.85
+start_index: 2560
+
+env_id: CryptoEnv-v0

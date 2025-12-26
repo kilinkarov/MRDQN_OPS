@@ -1,0 +1,5 @@
+outs:
+- md5: b21d99038a165f59d167dd71d3f61b68
+  size: 2557633
+  hash: md5
+  path: crypto_data.pkl

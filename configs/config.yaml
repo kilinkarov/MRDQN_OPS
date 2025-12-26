@@ -1,0 +1,22 @@
+defaults:
+  - data: btc
+  - model: rainbow
+  - training: default
+  - _self_
+
+seed: 777
+experiment_name: crypto_dqn_ops
+
+data_dir: data
+model_dir: trained_models
+plots_dir: plots
+
+mlflow:
+  tracking_uri: http://127.0.0.1:8080
+  experiment_name: ${experiment_name}
+
+dvc:
+  enabled: true
+  remote: local
+
+device: cpu

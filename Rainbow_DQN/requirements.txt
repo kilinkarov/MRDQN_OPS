@@ -1,8 +1,0 @@
-gym==0.21.0
-ipython==8.8.0
-matplotlib==3.3.4
-numpy==1.19.5
-pandas==1.2.4
-rl_plotter==2.4.0
-scikit_learn==1.2.0
-torch==1.9.1+cu111
