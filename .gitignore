@@ -168,9 +168,6 @@ logs/
 training.log
 
 # Plots and results
-plots/*.png
-plots/*.jpg
-plots/*.pdf
 graphics/
 
 # Old code directories
